@@ -1,0 +1,6 @@
+---
+
+- name: Install dbus
+  pkgng:
+    name: dbus
+    state: present

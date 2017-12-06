@@ -1,0 +1,5 @@
+- hosts: localhost
+  roles:
+    - ansible-role-dbus
+  vars:
+    dbus_config: ""

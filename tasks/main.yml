@@ -1,0 +1,37 @@
+---
+# tasks file for ansible-role-dbus
+
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- include: "install-{{ ansible_os_family }}.yml"
+
+- name: Create log directory
+  file:
+    path: "{{ dbus_log_dir }}"
+    mode: 0755
+    owner: "{{ dbus_user }}"
+    group: "{{ dbus_group }}"
+    state: directory
+  notify: Restart dbus
+
+- name: Create db directory
+  file:
+    path: "{{ dbus_db_dir }}"
+    mode: 0755
+    owner: "{{ dbus_user }}"
+    group: "{{ dbus_group }}"
+    state: directory
+  notify: Restart dbus
+
+- name: Create dbus.conf
+  template:
+    src: dbus.conf.j2
+    dest: "{{ dbus_conf_file }}"
+    validate: echo %s
+  notify: Restart dbus
+
+- name: Start dbus
+  service:
+    name: "{{ dbus_service }}"
+    enabled: true
+    state: started

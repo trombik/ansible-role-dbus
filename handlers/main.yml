@@ -1,0 +1,6 @@
+---
+
+- name: Restart dbus
+  service:
+    name: dbus
+    state: restarted

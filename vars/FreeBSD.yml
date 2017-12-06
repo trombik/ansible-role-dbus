@@ -1,0 +1,2 @@
+__dbus_db_dir: /var/db/dbus
+__dbus_conf_dir: /usr/local/etc/dbus

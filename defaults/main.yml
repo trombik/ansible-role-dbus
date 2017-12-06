@@ -1,0 +1,8 @@
+dbus_user: dbus
+dbus_group: dbus
+dbus_log_dir: /var/log/dbus
+dbus_db_dir: "{{ __dbus_db_dir }}"
+dbus_service: dbus
+dbus_conf_dir: "{{ __dbus_conf_dir }}"
+dbus_conf_file: "{{ __dbus_conf_dir }}/dbus.conf"
+dbus_flags: ""
