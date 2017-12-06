@@ -1,8 +1,10 @@
-dbus_user: dbus
-dbus_group: dbus
-dbus_log_dir: /var/log/dbus
-dbus_db_dir: "{{ __dbus_db_dir }}"
+dbus_user: "{{ __dbus_user }}"
+dbus_group: "{{ __dbus_group }}"
+dbus_package: "{{ __dbus_package }}"
 dbus_service: dbus
 dbus_conf_dir: "{{ __dbus_conf_dir }}"
-dbus_conf_file: "{{ __dbus_conf_dir }}/dbus.conf"
-dbus_flags: ""
+dbus_conf_file: "{{ dbus_conf_dir }}/system-local.conf"
+dbus_system_local_config: |
+  <!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-Bus Bus Configuration 1.0//EN"
+   "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+   <busconfig></busconfig>

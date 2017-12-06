@@ -1,6 +1,6 @@
 # ansible-role-dbus
 
-A brief description of the role goes here.
+Install and configure dbus
 
 # Requirements
 
@@ -8,9 +8,33 @@ None
 
 # Role Variables
 
-| variable | description | default |
+| Variable | Description | Default |
 |----------|-------------|---------|
+| `dbus_user` | User of `dbus` | `{{ __dbus_user }}` |
+| `dbus_group` | Group of `dbus` | `{{ __dbus_group }}` |
+| `dbus_package` | Package name of `dbus` | `{{ __dbus_package }}` |
+| `dbus_service` | Service name of `dbus` | `dbus` |
+| `dbus_conf_dir` | Path to configuration directory | `{{ __dbus_conf_dir }}` |
+| `dbus_conf_file` | Path to `system-local.conf` | `{{ dbus_conf_dir }}/system-local.conf` |
+| `dbus_system_local_config` | Content of `system-local.conf` | See below |
 
+## `dbus_system_local_config`
+
+```xml
+<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-Bus Bus Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+ <busconfig></busconfig>
+```
+
+## FreeBSD
+
+| Variable | Default |
+|----------|---------|
+| `__dbus_user` | `messagebus` |
+| `__dbus_group` | `messagebus` |
+| `__dbus_db_dir` | `/var/lib/dbus` |
+| `__dbus_package` | `devel/dbus` |
+| `__dbus_conf_dir` | `/usr/local/etc/dbus-1` |
 
 # Dependencies
 
@@ -19,6 +43,10 @@ None
 # Example Playbook
 
 ```yaml
+- hosts: localhost
+  roles:
+    - ansible-role-dbus
+  vars:
 ```
 
 # License

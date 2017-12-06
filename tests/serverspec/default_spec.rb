@@ -1,19 +1,20 @@
 require "spec_helper"
 require "serverspec"
+require "nokogiri"
 
 package = "dbus"
 service = "dbus"
-config  = "/etc/dbus/dbus.conf"
-user    = "dbus"
-group   = "dbus"
-ports   = [PORTS]
-log_dir = "/var/log/dbus"
-db_dir  = "/var/lib/dbus"
+config  = "/etc/dbus-1/system-local.conf"
+_user    = "messagebus"
+_group   = "messagebus"
+default_user = "root"
+default_group = "root"
+ports = []
 
 case os[:family]
 when "freebsd"
-  config = "/usr/local/etc/dbus.conf"
-  db_dir = "/var/db/dbus"
+  config = "/usr/local/etc/dbus-1/system-local.conf"
+  default_group = "wheel"
 end
 
 describe package(package) do
@@ -22,27 +23,10 @@ end
 
 describe file(config) do
   it { should be_file }
-  its(:content) { should match Regexp.escape("dbus") }
-end
-
-describe file(log_dir) do
-  it { should exist }
-  it { should be_mode 755 }
-  it { should be_owned_by user }
-  it { should be_grouped_into group }
-end
-
-describe file(db_dir) do
-  it { should exist }
-  it { should be_mode 755 }
-  it { should be_owned_by user }
-  it { should be_grouped_into group }
-end
-
-case os[:family]
-when "freebsd"
-  describe file("/etc/rc.conf.d/dbus") do
-    it { should be_file }
+  it { should be_owned_by default_user }
+  it { should be_grouped_into default_group }
+  it do
+    expect { Nokogiri::XML(subject.content) }.not_to raise_exception
   end
 end
 

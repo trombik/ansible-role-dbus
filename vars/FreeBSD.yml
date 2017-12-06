@@ -1,2 +1,4 @@
-__dbus_db_dir: /var/db/dbus
-__dbus_conf_dir: /usr/local/etc/dbus
+__dbus_user: messagebus
+__dbus_group: messagebus
+__dbus_package: devel/dbus
+__dbus_conf_dir: /usr/local/etc/dbus-1
