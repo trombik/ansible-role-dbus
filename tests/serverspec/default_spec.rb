@@ -10,14 +10,23 @@ _group   = "messagebus"
 default_user = "root"
 default_group = "root"
 ports = []
+xmllint_package = "libxml"
 
 case os[:family]
+when "openbsd"
+  default_group = "wheel"
+  service = "messagebus"
 when "freebsd"
   config = "/usr/local/etc/dbus-1/system-local.conf"
   default_group = "wheel"
+  xmllint_package = "libxml2"
 end
 
 describe package(package) do
+  it { should be_installed }
+end
+
+describe package(xmllint_package) do
   it { should be_installed }
 end
 

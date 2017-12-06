@@ -1,0 +1,5 @@
+__dbus_user: _dbus
+__dbus_group: _dbus
+__dbus_package: dbus
+__dbus_conf_dir: /etc/dbus-1
+__dbus_service: messagebus

@@ -13,7 +13,7 @@ None
 | `dbus_user` | User of `dbus` | `{{ __dbus_user }}` |
 | `dbus_group` | Group of `dbus` | `{{ __dbus_group }}` |
 | `dbus_package` | Package name of `dbus` | `{{ __dbus_package }}` |
-| `dbus_service` | Service name of `dbus` | `dbus` |
+| `dbus_service` | Service name of `dbus` | `{{ __dbus_service }}` |
 | `dbus_conf_dir` | Path to configuration directory | `{{ __dbus_conf_dir }}` |
 | `dbus_conf_file` | Path to `system-local.conf` | `{{ dbus_conf_dir }}/system-local.conf` |
 | `dbus_system_local_config` | Content of `system-local.conf` | See below |
@@ -32,9 +32,19 @@ None
 |----------|---------|
 | `__dbus_user` | `messagebus` |
 | `__dbus_group` | `messagebus` |
-| `__dbus_db_dir` | `/var/lib/dbus` |
 | `__dbus_package` | `devel/dbus` |
 | `__dbus_conf_dir` | `/usr/local/etc/dbus-1` |
+| `__dbus_service` | `dbus` |
+
+## OpenBSD
+
+| Variable | Default |
+|----------|---------|
+| `__dbus_user` | `_dbus` |
+| `__dbus_group` | `_dbus` |
+| `__dbus_package` | `dbus` |
+| `__dbus_conf_dir` | `/etc/dbus-1` |
+| `__dbus_service` | `messagebus` |
 
 # Dependencies
 

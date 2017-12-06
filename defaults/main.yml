@@ -1,7 +1,7 @@
 dbus_user: "{{ __dbus_user }}"
 dbus_group: "{{ __dbus_group }}"
 dbus_package: "{{ __dbus_package }}"
-dbus_service: dbus
+dbus_service: "{{ __dbus_service }}"
 dbus_conf_dir: "{{ __dbus_conf_dir }}"
 dbus_conf_file: "{{ dbus_conf_dir }}/system-local.conf"
 dbus_system_local_config: |

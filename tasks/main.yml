@@ -15,5 +15,4 @@
 - name: Start dbus
   service:
     name: "{{ dbus_service }}"
-    enabled: true
     state: started
