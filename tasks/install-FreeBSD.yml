@@ -2,5 +2,5 @@
 
 - name: Install dbus
   pkgng:
-    name: dbus
+    name: "{{ dbus_package }}"
     state: present
