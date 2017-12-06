@@ -1,13 +1,13 @@
 ---
 
 - name: Install dbus
-  pkgng:
+  openbsd_pkg:
     name: "{{ dbus_package }}"
     state: present
 
-- name: Install libxml2 for xmllint
-  pkgng:
-    name: textproc/libxml2
+- name: Install libxml for xmllint
+  openbsd_pkg:
+    name: libxml
     state: present
 
 - name: Enable dbus

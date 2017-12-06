@@ -2,5 +2,5 @@
 
 - name: Restart dbus
   service:
-    name: dbus
+    name: "{{ dbus_service }}"
     state: restarted
