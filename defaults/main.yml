@@ -3,8 +3,10 @@ dbus_group: "{{ __dbus_group }}"
 dbus_package: "{{ __dbus_package }}"
 dbus_service: "{{ __dbus_service }}"
 dbus_conf_dir: "{{ __dbus_conf_dir }}"
+dbus_systemd_dir: "{{ dbus_conf_dir }}/system.d"
 dbus_conf_file: "{{ dbus_conf_dir }}/system-local.conf"
 dbus_system_local_config: |
   <!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-Bus Bus Configuration 1.0//EN"
    "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
    <busconfig></busconfig>
+dbus_systemd_config: []
