@@ -13,6 +13,8 @@ ports = []
 xmllint_package = "libxml2-utils"
 
 case os[:family]
+when "redhat"
+  xmllint_package = "libxml2"
 when "openbsd"
   default_group = "wheel"
   service = "messagebus"

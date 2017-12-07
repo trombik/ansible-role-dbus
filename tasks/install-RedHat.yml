@@ -1,0 +1,16 @@
+---
+
+- name: Install dbus
+  yum:
+    name: "{{ dbus_package }}"
+    state: present
+
+- name: Install libxml2 for xmllint
+  yum:
+    name: libxml2
+    state: present
+
+- name: Enable dbus
+  service:
+    name: "{{ dbus_service }}"
+    enabled: yes
