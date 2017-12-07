@@ -3,6 +3,14 @@
 
 - include_vars: "{{ ansible_os_family }}.yml"
 
+- name: Assert dbus_systemd_config has valid structure
+  assert:
+    that:
+      - "'state' in item"
+      - item['state'] == 'absent' or item['state'] == 'present'
+      - "'name' in item"
+  with_items: "{{ dbus_systemd_config }}"
+
 - include: "install-{{ ansible_os_family }}.yml"
 
 - name: Create system-local.conf
@@ -11,6 +19,28 @@
     dest: "{{ dbus_conf_file }}"
     validate: xmllint --noout %s
   notify: Restart dbus
+
+- name: Create dbus_systemd_dir
+  file:
+    path: "{{ dbus_systemd_dir }}"
+    state: directory
+
+- name: Create dbus_systemd_config files
+  template:
+    src: system_d.conf.j2
+    dest: "{{ dbus_systemd_dir }}/{{ item.name }}"
+    validate: xmllint --noout %s
+  when:
+    - item['state'] == 'present'
+  with_items: "{{ dbus_systemd_config }}"
+
+- name: Remove dbus_systemd_config files
+  file:
+    path: "{{ dbus_systemd_dir }}/{{ item.name }}"
+    state: absent
+  when:
+    - item['state'] == 'absent'
+  with_items: "{{ dbus_systemd_config }}"
 
 - name: Start dbus
   service:

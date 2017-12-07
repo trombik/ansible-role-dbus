@@ -15,8 +15,10 @@ None
 | `dbus_package` | Package name of `dbus` | `{{ __dbus_package }}` |
 | `dbus_service` | Service name of `dbus` | `{{ __dbus_service }}` |
 | `dbus_conf_dir` | Path to configuration directory | `{{ __dbus_conf_dir }}` |
+| `dbus_systemd_dir` | Path to `system.d` directory | `{{ dbus_conf_dir }}/system.d` |
 | `dbus_conf_file` | Path to `system-local.conf` | `{{ dbus_conf_dir }}/system-local.conf` |
 | `dbus_system_local_config` | Content of `system-local.conf` | See below |
+| `dbus_systemd_config` | List of files under `system.d` directory. See below | `[]` |
 
 ## `dbus_system_local_config`
 
@@ -25,6 +27,17 @@ None
  "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
  <busconfig></busconfig>
 ```
+
+## `dbus_systemd_config`
+
+This variable is a list of dict that represents files under
+`dbus_systemd_dir`.
+
+| Key | Value | Mandatory? |
+|-----|-------|------------|
+| `name` | File name | yes |
+| `state` | Either `present` or `absent` | yes |
+| `content` | The content of the file | no |
 
 ## FreeBSD
 
@@ -57,6 +70,44 @@ None
   roles:
     - ansible-role-dbus
   vars:
+    dbus_systemd_config:
+      - name: foo.conf
+        state: absent
+      - name: avahi-dbus.conf
+        state: present
+        content: |
+          <!DOCTYPE busconfig PUBLIC
+                    "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+                    "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+          <busconfig>
+
+            <!-- Only root or user _avahi can own the Avahi service -->
+            <policy user="_avahi">
+              <allow own="org.freedesktop.Avahi"/>
+            </policy>
+            <policy user="root">
+              <allow own="org.freedesktop.Avahi"/>
+            </policy>
+
+            <!-- Allow anyone to invoke methods on Avahi server, except SetHostName -->
+            <policy context="default">
+              <allow send_destination="org.freedesktop.Avahi"/>
+              <allow receive_sender="org.freedesktop.Avahi"/>
+
+              <deny send_destination="org.freedesktop.Avahi"
+                    send_interface="org.freedesktop.Avahi.Server" send_member="SetHostName"/>
+            </policy>
+
+            <!-- Allow everything, including access to SetHostName to users of the group "wheel" -->
+            <policy group="wheel">
+              <allow send_destination="org.freedesktop.Avahi"/>
+              <allow receive_sender="org.freedesktop.Avahi"/>
+            </policy>
+            <policy user="root">
+              <allow send_destination="org.freedesktop.Avahi"/>
+              <allow receive_sender="org.freedesktop.Avahi"/>
+            </policy>
+          </busconfig>
 ```
 
 # License
