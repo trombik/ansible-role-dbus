@@ -10,12 +10,15 @@ conf_dir = "/etc/dbus-1"
 default_user = "root"
 default_group = "root"
 ports = []
-xmllint_package = "libxml"
+xmllint_package = "libxml2-utils"
 
 case os[:family]
+when "redhat"
+  xmllint_package = "libxml2"
 when "openbsd"
   default_group = "wheel"
   service = "messagebus"
+  xmllint_package = "libxml"
 when "freebsd"
   conf_dir = "/usr/local/etc/dbus-1"
   default_group = "wheel"

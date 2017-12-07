@@ -39,6 +39,16 @@ This variable is a list of dict that represents files under
 | `state` | Either `present` or `absent` | yes |
 | `content` | The content of the file | no |
 
+## Debian
+
+| Variable | Default |
+|----------|---------|
+| `__dbus_user` | `messagebus` |
+| `__dbus_group` | `messagebus` |
+| `__dbus_package` | `dbus` |
+| `__dbus_conf_dir` | `/etc/dbus-1` |
+| `__dbus_service` | `dbus.service` |
+
 ## FreeBSD
 
 | Variable | Default |
@@ -59,6 +69,16 @@ This variable is a list of dict that represents files under
 | `__dbus_conf_dir` | `/etc/dbus-1` |
 | `__dbus_service` | `messagebus` |
 
+## RedHat
+
+| Variable | Default |
+|----------|---------|
+| `__dbus_user` | `messagebus` |
+| `__dbus_group` | `messagebus` |
+| `__dbus_package` | `dbus` |
+| `__dbus_conf_dir` | `/etc/dbus-1` |
+| `__dbus_service` | `dbus.service` |
+
 # Dependencies
 
 None
@@ -69,6 +89,22 @@ None
 - hosts: localhost
   roles:
     - ansible-role-dbus
+  pre_tasks:
+    - name: Create _avahi user
+      user:
+        name: _avahi
+        state: present
+      when:
+        - ansible_os_family != 'FreeBSD'
+        - ansible_os_family != 'OpenBSD'
+    - name: Create wheel group
+      group:
+        name: wheel
+        state: present
+      when:
+        - ansible_os_family != 'FreeBSD'
+        - ansible_os_family != 'OpenBSD'
+
   vars:
     dbus_systemd_config:
       - name: foo.conf
