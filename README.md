@@ -69,6 +69,22 @@ None
 - hosts: localhost
   roles:
     - ansible-role-dbus
+  pre_tasks:
+    - name: Create _avahi user
+      user:
+        name: _avahi
+        state: present
+      when:
+        - ansible_os_family != 'FreeBSD'
+        - ansible_os_family != 'OpenBSD'
+    - name: Create wheel group
+      group:
+        name: wheel
+        state: present
+      when:
+        - ansible_os_family != 'FreeBSD'
+        - ansible_os_family != 'OpenBSD'
+
   vars:
     dbus_systemd_config:
       - name: foo.conf

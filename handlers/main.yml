@@ -4,3 +4,8 @@
   service:
     name: "{{ dbus_service }}"
     state: restarted
+
+- name: Reload dbus
+  service:
+    name: "{{ dbus_service }}"
+    state: reloaded
