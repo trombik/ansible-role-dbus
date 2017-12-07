@@ -22,7 +22,7 @@ when "freebsd"
   xmllint_package = "libxml2"
 end
 systemd_dir = "#{conf_dir}/system.d"
-config  = "#{conf_dir}/system-local.conf"
+config = "#{conf_dir}/system-local.conf"
 
 describe package(package) do
   it { should be_installed }
